@@ -4,7 +4,13 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { COLORS, SPACING } from '../../Constants';
 import { Button } from '../../components';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import {
+  AppStackProps,
+  AuthStackProps,
+  ContentStackProps,
+} from '../../NavigationHelper';
 
 const { width, height } = Dimensions.get('window');
 
@@ -42,10 +48,13 @@ type Values = {
 };
 
 const SigninForm: React.FunctionComponent = () => {
+  const navigation = useNavigation<
+    StackNavigationProp<AppStackProps, 'Content'>
+  >();
   const onSubmit = (values: Values) => {
     validationSchema
       .validate(values)
-      .then((res) => console.log('should login'));
+      .then((res) => navigation.navigate('Content'));
   };
   return (
     <Formik

@@ -3,15 +3,11 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthStack } from './src';
+import { AuthStack, ContentStack } from './src';
+import { createStackNavigator } from '@react-navigation/stack';
+import { AppStackProps } from './src/NavigationHelper';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+const AppStackNavigation = createStackNavigator<AppStackProps>();
 
 const App: React.FunctionComponent = () => {
   const [fontsLoaded] = useFonts({
@@ -24,7 +20,10 @@ const App: React.FunctionComponent = () => {
   }
   return (
     <NavigationContainer>
-      <AuthStack />
+      <AppStackNavigation.Navigator headerMode="none">
+        <AppStackNavigation.Screen name="Auth" component={AuthStack} />
+        <AppStackNavigation.Screen name="Content" component={ContentStack} />
+      </AppStackNavigation.Navigator>
     </NavigationContainer>
   );
 };
